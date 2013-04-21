@@ -8,8 +8,8 @@
 #include <FBase.h>
 
 
-#include "contents.h"
-#include "musics.h"
+#include "tizenair-content.h"
+#include "tizenair-music.h"
 #include "tizenair-util.h"
 
 using namespace Tizen::Base::Collection;

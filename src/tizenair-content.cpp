@@ -7,7 +7,7 @@
 #include <FContent.h>
 #include <FIo.h>
 
-#include "contents.h"
+#include "tizenair-content.h"
 
 using namespace Tizen::Base;
 using namespace Tizen::Base::Collection;

@@ -11,8 +11,8 @@
 #include <FIo.h>
 
 
-#include "contents.h"
-#include "images.h"
+#include "tizenair-content.h"
+#include "tizenair-image.h"
 #include "tizenair-util.h"
 
 using namespace Tizen::Base::Collection;

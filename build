@@ -13,14 +13,50 @@ fi
 
 echo "Target: $TARGET"
 
-cd $DIR_HOME/src
-node-waf configure build
+#cd $DIR_HOME/src
+#node-waf configure
+#node-waf build
 
-if ! [ -e $TARGET ];
-then
-	mkdir -p $TARGET
-fi
+SRC_LIST=`find src -name *.cpp`
 
-cp $DIR_HOME/src/build/Release/tizen-native.node $TARGET
+O_LIST=""
+echo "NODE :$INC_NODE"
+echo "NODE DEPS:$NODE_DEPS"
+
+for SRC_NAME in $SRC_LIST
+do
+	D_NAME="${SRC_NAME%.*}.d"
+	O_NAME="${SRC_NAME%.*}.o"
+
+	O_LIST="$O_LIST $O_NAME"
+
+	$CXX -I"pch" -D_DEBUG -I"$DIR_HOME/inc" -O0 -g3 -Wall -c -fmessage-length=0 -fPIC -I"$INC_TIZEN" -I"$INCXML" -I"$TIZEN_HOME/library" -I"$INC_OSP" -I"$INC_NODE" -I"$NODE_DEPS/uv/include" -I"$NODE_DEPS/v8/include" --sysroot="$SYSROOT" -D_APP_LOG -MMD -MP -MF"$D_NAME" -MT"$D_NAME" -o "$O_NAME" "$SRC_NAME"
+
+done;
+
+SRC_LIST=`find src -name *.cc`
+for SRC_NAME in $SRC_LIST
+do
+	D_NAME="${SRC_NAME%.*}.d"
+	O_NAME="${SRC_NAME%.*}.o"
+
+	O_LIST="$O_LIST $O_NAME"
+
+	$CXX -I"pch" -D_DEBUG -I"$DIR_HOME/inc" -O0 -g3 -Wall -c -fmessage-length=0 -fPIC -I"$INC_TIZEN" -I"$INCXML" -I"$TIZEN_HOME/library" -I"$INC_OSP" -I"$INC_NODE" -I"$NODE_DEPS/uv/include" -I"$NODE_DEPS/v8/include" --sysroot="$SYSROOT" -D_APP_LOG -MMD -MP -MF"$D_NAME" -MT"$D_NAME" -o "$O_NAME" "$SRC_NAME"
+
+done;
+echo "Linking..."
+echo "$LD -o"$TARGET/tizenair.node" $O_LIST -L"$DIR_HOME/lib" -Xlinker --as-needed -pie -lpthread --sysroot="$SYSROOT" -L"$LIB_TIZEN" -L"$LIB_OSP" -losp-appfw -losp-uifw -losp-image -losp-json -losp-ime -losp-net -lpthread -losp-content -losp-locations -losp-telephony -losp-uix -losp-media -losp-messaging -losp-web -losp-social -losp-wifi -losp-bluetooth -losp-nfc -losp-face -losp-speech-tts -losp-speech-stt -losp-shell -losp-shell-core -lxml2 -losp-vision -ldl -shared"
+
+$LD -o"$TARGET/tizenair.node" $O_LIST -L"$DIR_HOME/lib" -Xlinker --as-needed -lpthread --sysroot="$SYSROOT" -L"$LIB_TIZEN" -L"$LIB_OSP" -losp-appfw -losp-uifw -losp-image -losp-json -losp-ime -losp-net -lpthread -losp-content -losp-locations -losp-telephony -losp-uix -losp-media -losp-messaging -losp-web -losp-social -losp-wifi -losp-bluetooth -losp-nfc -losp-face -losp-speech-tts -losp-speech-stt -losp-shell -losp-shell-core -lxml2 -losp-vision -shared
+
+
+#i386-linux-gnueabi-g++ -o"$TARGET/cantata.exe" $O_LIST -L"$DIR_HOME/lib" -Xlinker --as-needed -pie -lpthread -Xlinker -rpath=\$ORIGIN/../lib --sysroot="$SYSROOT" -L"$LIB_TIZEN" -L"$LIB_OSP" -losp-appfw -losp-uifw -losp-image -losp-json -losp-ime -losp-net -lpthread -losp-content -losp-locations -losp-telephony -losp-uix -losp-media -losp-messaging -losp-web -losp-social -losp-wifi -losp-bluetooth -losp-nfc -losp-face -losp-speech-tts -losp-speech-stt -losp-shell -losp-shell-core -lxml2 -losp-vision -ldl
+#if ! [ -e $TARGET ];
+#then
+#	mkdir -p $TARGET
+#fi
+
+#cp $DIR_HOME/src/build/Release/tizen-native.node $TARGET
 
 

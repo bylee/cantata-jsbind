@@ -8,7 +8,7 @@
 #include <FIo.h>
 #include <FSocial.h>
 
-#include "contacts.h"
+#include "tizenair-contact.h"
 #include "tizenair-util.h"
 
 using namespace Tizen::Base::Collection;

@@ -9,7 +9,7 @@
 #include <FTelephony.h>
 
 #include "tizenair-util.h"
-#include "tizenair_system.h"
+#include "tizenair-system.h"
 
 /**
  * js bind for Tizen::System API

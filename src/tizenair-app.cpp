@@ -3,7 +3,7 @@
 #include <FAppPkg.h>
 
 #include "tizenair-util.h"
-#include "tizenair_apps.h"
+#include "tizenair-app.h"
 
 using namespace Tizen::App::Package;
 using namespace Tizen::Base;
